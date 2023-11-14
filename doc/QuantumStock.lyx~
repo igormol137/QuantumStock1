@@ -1,0 +1,1000 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{hyperref}
+\end_preamble
+\options nofootinbib
+\use_default_options true
+\begin_modules
+theorems-ams
+theorems-ams-extended
+\end_modules
+\maintain_unincluded_children false
+\language brazilian
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing onehalf
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\paperwidth 128mm
+\paperheight 96mm
+\leftmargin 1.9cm
+\topmargin 1.9cm
+\rightmargin 1.9cm
+\bottommargin 1.9cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Implementação e Avaliação de Modelos de Aprendizado Profundo para Otimização
+ de Inventário, Detecção e Tratamento de Anomalias
+\end_layout
+
+\begin_layout Author
+Igor Mol
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+\size small
+\color magenta
+igor.mol@makes.ai
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Redes Neurais Recorrentes
+\end_layout
+
+\begin_layout Standard
+O código–fonte 
+\family typewriter
+\size small
+\color magenta
+RNN.py
+\family default
+\size default
+\color inherit
+ visa resolver um problema de otimização de inventário por meio da aplicação
+ de um modelo de aprendizado profundo, utilizando uma Rede Neural Recorrente
+ (RNN) implementada com TensorFlow e Keras.
+ A estrutura do código está modularizada na classe 
+\family typewriter
+\size small
+\color magenta
+InventoryOptimizer
+\family default
+\size default
+\color inherit
+ para facilitar a compreensão e promover a reutilização.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Inicialização e Configuração
+\end_layout
+
+\begin_layout Standard
+A classe 
+\family typewriter
+\size small
+\color magenta
+InventoryOptimizer
+\family default
+\size default
+\color inherit
+ é inicializada com o conjunto de dados de inventário.
+ Os parâmetros essenciais, como o comprimento da sequência (
+\family typewriter
+\size small
+\color magenta
+sequence_length
+\family default
+\size default
+\color inherit
+), um objeto 
+\family typewriter
+\size small
+\color magenta
+MinMaxScaler
+\family default
+\size default
+\color inherit
+ para normalização dos dados, e o modelo RNN são configurados durante a
+ inicialização.
+\end_layout
+
+\begin_layout Subsection*
+Pré-processamento de Dados
+\end_layout
+
+\begin_layout Standard
+A função 
+\family typewriter
+\size small
+\color magenta
+preprocess_data
+\family default
+\size default
+\color inherit
+ realiza a normalização dos dados e gera sequências para o treinamento da
+ RNN.
+ Os dados são normalizados para o intervalo 
+\begin_inset Formula $[0,1]$
+\end_inset
+
+ usando o 
+\family typewriter
+\size small
+\color magenta
+MinMaxScaler
+\family default
+\size default
+\color inherit
+.
+ Sequências de entrada e os rótulos correspondentes são criados a partir
+ dos dados normalizados.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Construção do Modelo RNN
+\end_layout
+
+\begin_layout Standard
+A função 
+\family typewriter
+\size small
+\color magenta
+build_model
+\family default
+\size default
+\color inherit
+ constrói o modelo RNN utilizando a biblioteca Keras.
+ O modelo consiste em uma camada RNN com ativação ReLU e uma camada densa
+ de saída.
+ A função de perda utilizada é o erro quadrático médio (MSE), e o otimizador
+ é o Adam.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Treinamento do Modelo
+\end_layout
+
+\begin_layout Standard
+A função 
+\family typewriter
+\size small
+\color magenta
+train_model
+\family default
+\size default
+\color inherit
+ treina o modelo RNN com os dados de treinamento.
+ Os parâmetros padrão são configurados para 50 épocas e um tamanho de lote
+ de 
+\begin_inset Formula $32$
+\end_inset
+
+.
+ O histórico de treinamento, incluindo as métricas de MSE para o conjunto
+ de treinamento e validação, é retornado.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Avaliação do Modelo
+\end_layout
+
+\begin_layout Standard
+A função 
+\family typewriter
+\size small
+\color magenta
+evaluate_model
+\family default
+\size default
+\color inherit
+ avalia o desempenho do modelo nos dados de teste, imprimindo o MSE resultante
+ como uma medida quantitativa da qualidade do modelo em dados não vistos.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Geração de Previsões
+\end_layout
+
+\begin_layout Standard
+A função 
+\family typewriter
+\size small
+\color magenta
+predict
+\family default
+\size default
+\color inherit
+ gera previsões para os dados de teste utilizando o modelo treinado.
+ As previsões são desnormalizadas para a escala original dos dados.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Visualizações e Resultados
+\end_layout
+
+\begin_layout Standard
+As funções 
+\family typewriter
+\size small
+\color magenta
+plot_results
+\family default
+\size default
+\color inherit
+, 
+\family typewriter
+\size small
+\color magenta
+plot_mse_trend
+\family default
+\size default
+\color inherit
+, e 
+\family typewriter
+\size small
+\color magenta
+plot_loss_function
+\family default
+\size default
+\color inherit
+ são responsáveis por gerar gráficos que visualizam os resultados do modelo.
+ A função 
+\family typewriter
+\size small
+\color magenta
+print_results_table
+\family default
+\size default
+\color inherit
+ imprime os resultados da otimização de inventário em uma tabela.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Execução do Programa
+\end_layout
+
+\begin_layout Standard
+A função 
+\family typewriter
+\size small
+\color magenta
+main
+\family default
+\size default
+\color inherit
+ carrega os dados do inventário, instancia a classe 
+\family typewriter
+\size small
+\color magenta
+InventoryOptimizer
+\family default
+\size default
+\color inherit
+, realiza o pré-processamento dos dados, treina o modelo, avalia o desempenho,
+ gera previsões e cria visualizações dos resultados.
+ Este padrão de execução promove a organização do código e facilita a reutilizaç
+ão em diferentes cenários de otimização de inventário.
+\end_layout
+
+\begin_layout Section
+Otimização de Inventário com Redes Neurais Convolucionais (CNN)
+\end_layout
+
+\begin_layout Standard
+O código–fonte 
+\family typewriter
+\size small
+\color magenta
+CNN.py
+\family default
+\size default
+\color inherit
+ implementa um otimizador de inventário por meio de uma abordagem de aprendizado
+ profundo utilizando Redes Neurais Convolucionais (CNNs).
+ A classe 
+\family typewriter
+\size small
+\color magenta
+InventoryOptimizer
+\family default
+\size default
+\color inherit
+ encapsula todas as funcionalidades do sistema.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Inicialização e Carregamento de Dados
+\end_layout
+
+\begin_layout Standard
+O objeto é inicializado com o caminho do arquivo CSV contendo os dados do
+ inventário.
+ A função 
+\family typewriter
+\size small
+\color magenta
+load_data
+\family default
+\size default
+\color inherit
+ carrega os dados utilizando a biblioteca pandas, retornando um DataFrame.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Pré-processamento de Dados
+\end_layout
+
+\begin_layout Standard
+A função 
+\family typewriter
+\size small
+\color magenta
+preprocess_data
+\family default
+\size default
+\color inherit
+ normaliza os dados, escalando as colunas '
+\family typewriter
+\size small
+\color magenta
+time_scale
+\family default
+\size default
+\color inherit
+', '
+\family typewriter
+\size small
+\color magenta
+filial_id
+\family default
+\size default
+\color inherit
+' e '
+\family typewriter
+\size small
+\color magenta
+quant_item
+\family default
+\size default
+\color inherit
+' para o intervalo 
+\begin_inset Formula $[0,1]$
+\end_inset
+
+ por meio da classe 
+\family typewriter
+\size small
+\color magenta
+MinMaxScaler
+\family default
+\size default
+\color inherit
+ do scikit-learn.
+\end_layout
+
+\begin_layout Subsection*
+Construção da CNN
+\end_layout
+
+\begin_layout Standard
+A função 
+\family typewriter
+\size small
+\color magenta
+build_model
+\family default
+\size default
+\color inherit
+ constrói a arquitetura da Rede Neural Convolucional (CNN) utilizando a
+ API do Keras.
+ A CNN é composta por uma camada de convolução unidimensional, uma camada
+ de achatamento (flatten), e duas camadas densas (fully connected).
+ 
+\end_layout
+
+\begin_layout Subsection*
+Treinamento do Modelo
+\end_layout
+
+\begin_layout Standard
+O método 
+\family typewriter
+\size small
+\color magenta
+train_model
+\family default
+\size default
+\color inherit
+ realiza o treinamento da CNN, registrando as tendências de Mean Squared
+ Error (MSE) e perda (loss) ao longo das épocas.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Avaliação do Modelo
+\end_layout
+
+\begin_layout Standard
+A função 
+\family typewriter
+\size small
+\color magenta
+evaluate_model
+\family default
+\size default
+\color inherit
+ avalia o desempenho do modelo treinado sobre o conjunto de teste, calculando
+ e exibindo o MSE.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Geração de Previsões
+\end_layout
+
+\begin_layout Standard
+O método 
+\family typewriter
+\size small
+\color magenta
+predict
+\family default
+\size default
+\color inherit
+ realiza predições utilizando a CNN sobre o conjunto de teste.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Inversão da Escala de Normalização
+\end_layout
+
+\begin_layout Standard
+A função 
+\family typewriter
+\size small
+\color magenta
+inverse_transform
+\family default
+\size default
+\color inherit
+ efetua a inversão da escala de normalização, convertendo as predições para
+ a escala original.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Visualizações e Resultados
+\end_layout
+
+\begin_layout Standard
+As funções 
+\family typewriter
+\size small
+\color magenta
+plot_actual_vs_predicted
+\family default
+\size default
+\color inherit
+, 
+\family typewriter
+\size small
+\color magenta
+plot_mse_trend
+\family default
+\size default
+\color inherit
+, 
+\family typewriter
+\size small
+\color magenta
+plot_loss_trend
+\family default
+\size default
+\color inherit
+, e 
+\family typewriter
+\size small
+\color magenta
+print_results_table
+\family default
+\size default
+\color inherit
+ geram visualizações dos resultados.
+ A tabela é apresentada utilizando a biblioteca tabulate, seguida por gráficos
+ que ilustram a relação entre as quantidades reais e previstas, a tendência
+ geral do MSE e a evolução da função de perda durante o treinamento.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Execução do Programa
+\end_layout
+
+\begin_layout Standard
+A função 
+\family typewriter
+\size small
+\color magenta
+main
+\family default
+\size default
+\color inherit
+ carrega os dados do inventário, realiza o pré-processamento, treina a CNN,
+ avalia o desempenho, gera previsões e cria visualizações dos resultados.
+ Este padrão de execução organiza o código e facilita a compreensão em diferente
+s cenários de otimização de inventário.
+ 
+\end_layout
+
+\begin_layout Section
+Otimização de Inventário com Abordagem Híbrida CNN-RNN
+\end_layout
+
+\begin_layout Standard
+O código–fonte Hybrid_CNN_RNN.py apresenta uma solução para o problema de
+ otimização de inventário por meio de uma abordagem híbrida que combina
+ Redes Neurais Convolucionais (CNN) e Recorrentes (RNN).
+ O sistema é encapsulado na classe OtimizadorInventario, projetada para
+ proporcionar modularidade e compreensão do código.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Inicialização e Carregamento de Dados
+\end_layout
+
+\begin_layout Standard
+A classe é inicializada com informações cruciais, como o caminho do arquivo
+ de dados, o número de passos temporais e o número de recursos.
+ Esses parâmetros oferecem flexibilidade para ajustar o comportamento do
+ otimizador.
+ A função carregar_dados é responsável por ler os dados tabulares contidos
+ no arquivo CSV especificado.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Normalização dos Dados
+\end_layout
+
+\begin_layout Standard
+A normalização dos dados, realizada pela função normalizar_dados, utiliza
+ a classe MinMaxScaler da biblioteca scikit-learn para dimensionar os atributos
+ do conjunto de dados para o intervalo [0, 1].
+ Essa etapa é crucial para aprimorar a convergência e o desempenho do modelo
+ durante o treinamento.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Geração de Sequências
+\end_layout
+
+\begin_layout Standard
+A função criar_sequencias é empregada para gerar sequências temporais apropriada
+s a partir dos dados.
+ Cada sequência é formada por uma janela deslizante de passos temporais,
+ onde os rótulos representam a quantidade de itens na posição temporal subsequen
+te.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Preparação das Sequências
+\end_layout
+
+\begin_layout Standard
+A preparação das sequências para treinamento é realizada pela função preparar_se
+quencias, que extrai as colunas relevantes do DataFrame e ajusta as dimensões
+ das sequências de acordo com as expectativas do modelo híbrido CNN-RNN.
+\end_layout
+
+\begin_layout Subsection*
+Construção do Modelo
+\end_layout
+
+\begin_layout Standard
+A função construir_modelo define a arquitetura do modelo híbrido CNN-RNN
+ utilizando a biblioteca TensorFlow e Keras.
+ Essa arquitetura inclui uma camada convolucional 1D seguida por uma camada
+ de pooling, uma camada LSTM e, por fim, uma camada densa de saída.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Treinamento do Modelo
+\end_layout
+
+\begin_layout Standard
+O treinamento do modelo é executado pela função treinar_modelo, que utiliza
+ o otimizador Adam e a métrica de erro quadrático médio (MSE) para ajustar
+ os pesos do modelo às sequências de treinamento.
+ A função fazer_predicoes gera previsões utilizando o modelo treinado nas
+ sequências de treinamento.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Avaliação do Desempenho
+\end_layout
+
+\begin_layout Standard
+As métricas de desempenho, como MSE, MAE, R2 Score e Residuais, são calculadas
+ pela função calcular_metricas.
+ Essas métricas proporcionam uma avaliação abrangente do quão bem o modelo
+ está performando.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Apresentação e Análise dos Resultados
+\end_layout
+
+\begin_layout Standard
+Para uma análise detalhada, a função imprimir_tabela_resultados utiliza
+ a biblioteca tabulate para apresentar os resultados de forma estruturada
+ e legível em formato de tabela.
+ Além disso, são gerados gráficos visuais, como o gráfico de valores reais
+ versus previstos e as tendências do MSE e da função de perda ao longo das
+ épocas de treinamento.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Execução do Programa
+\end_layout
+
+\begin_layout Standard
+A função main orquestra o processo de otimização de inventário utilizando
+ o modelo híbrido de CNN e RNN.
+ O caminho do arquivo é especificado, e um objeto da classe OtimizadorInventario
+ é instanciado para realizar operações subsequentes, incluindo carregamento
+ de dados, normalização, preparação de sequências, treinamento do modelo,
+ geração de previsões e análise dos resultados.
+ Os resultados finais são consolidados em um DataFrame que encapsula previsões,
+ rótulos reais e métricas de desempenho.
+\end_layout
+
+\begin_layout Section
+Solução Híbrida de Aprendizado Profundo para Otimização de Inventário
+\end_layout
+
+\begin_layout Standard
+Este programa Hybrud_RNN_LSTM.py oferece uma solução para o desafiador problema
+ de otimização de inventário, utilizando uma abordagem híbrida de aprendizado
+ profundo.
+ A estratégia adotada combina Redes Neurais Convolucionais (CNN) e Redes
+ Neurais do tipo Long Short-Term Memory (LSTM).
+ 
+\end_layout
+
+\begin_layout Subsection*
+Inicialização e Preprocessamento de Dados
+\end_layout
+
+\begin_layout Standard
+A classe InventoryOptimizer encapsula as funcionalidades do programa.
+ O construtor inicializa variáveis cruciais, enquanto a função load_data
+ carrega dados tabulares de um arquivo CSV especificado e os ordena com
+ base na coluna 'time_scale'.
+ O preprocessamento inclui a extração de features e rótulos, normalização
+ e divisão dos dados em conjuntos de treinamento e teste.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Construção do Modelo
+\end_layout
+
+\begin_layout Standard
+A arquitetura do modelo é construída com uma camada Conv1D, seguida por
+ uma camada Flatten, Reshape e uma LSTM.
+ O modelo é compilado utilizando o otimizador 'adam' e a função de perda
+ 'mse' (Mean Squared Error).
+ 
+\end_layout
+
+\begin_layout Subsection*
+Treinamento e Predição
+\end_layout
+
+\begin_layout Standard
+A função train_model executa o treinamento do modelo com os dados de treinamento
+, retornando o histórico para análise.
+ A predição é realizada pela função predict, que inverte a escala para obter
+ valores reais.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Avaliação do Desempenho
+\end_layout
+
+\begin_layout Standard
+Métricas como desvio padrão, erro estatístico e resíduos são calculados
+ pela função calculate_metrics com base nas previsões e nos valores reais.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Visualização e Análise dos Resultados
+\end_layout
+
+\begin_layout Standard
+Resultados são apresentados de maneira formatada por meio da biblioteca
+ Tabulate.
+ Gráficos de dispersão e tendência do Mean Squared Error (MSE) ao longo
+ das épocas fornecem insights visuais sobre a eficácia do modelo.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Execução do Programa
+\end_layout
+
+\begin_layout Standard
+Na função principal main, a classe InventoryOptimizer é instanciada, dados
+ são carregados, preprocessados, o modelo é construído e treinado.
+ Previsões são feitas, métricas são calculadas e os resultados são exibidos
+ por meio de tabelas e gráficos, proporcionando uma visão abrangente do
+ desempenho da solução híbrida proposta.
+\end_layout
+
+\begin_layout Section
+Otimização de Inventário com Redes Neurais Recorrentes (RNNs) e GRU
+\end_layout
+
+\begin_layout Standard
+O código–fonte 
+\family typewriter
+\size small
+\color magenta
+GRU.py 
+\family default
+\size default
+\color inherit
+apresenta uma solução para o problema de otimização de inventário, adotando
+ Redes Neurais Recorrentes (RNNs) com uma arquitetura de Unidade Recorrente
+ Gated (GRU).
+ 
+\end_layout
+
+\begin_layout Subsection*
+Inicialização e Pré-processamento
+\end_layout
+
+\begin_layout Standard
+A classe InventoryOptimizer é projetada para otimizar o inventário, com
+ parâmetros cruciais, incluindo o caminho do arquivo CSV, o número de passos
+ temporais, unidades GRU, épocas e tamanho do lote.
+ A normalização dos dados, realizada pelo método load_data, é essencial
+ para melhorar a convergência do modelo.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Construção e Treinamento do Modelo
+\end_layout
+
+\begin_layout Standard
+A arquitetura da rede é construída com uma camada GRU e uma camada densa.
+ O treinamento, executado por train_model, utiliza dados de treinamento
+ e validação.
+ O acompanhamento do histórico permite análises detalhadas do desempenho
+ do modelo ao longo das épocas.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Predição e Avaliação
+\end_layout
+
+\begin_layout Standard
+A função predict gera previsões para os dados de teste.
+ A inversão da transformação normalizada é crucial para comparar valores
+ previstos e reais.
+ Resultados são apresentados de forma estruturada e podem ser salvos em
+ um arquivo CSV para análises posteriores.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Visualização e Análise de Resultados
+\end_layout
+
+\begin_layout Standard
+A classe oferece métodos para plotar resultados, comparando a quantidade
+ ótima com os dados reais.
+ Gráficos da função de perda durante o treinamento fornecem insights sobre
+ a convergência do modelo.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Execução do Programa
+\end_layout
+
+\begin_layout Standard
+A função principal main orquestra o processo de otimização de inventário.
+ Os dados são carregados, pré-processados e divididos em conjuntos de treino
+ e teste.
+ O treinamento, predição e avaliação são conduzidos, e os resultados são
+ organizados em estruturas de dados para análise e visualização abrangentes.
+ 
+\end_layout
+
+\begin_layout Section
+Otimização de Inventário com Floresta Aleatória
+\end_layout
+
+\begin_layout Standard
+O código 
+\family typewriter
+\size small
+\color magenta
+Random_Forests.py
+\family default
+\size default
+\color inherit
+ apresenta uma solução para o problema de otimização de inventário, utilizando
+ a abordagem de Floresta Aleatória.
+ Essa técnica baseia-se em um conjunto de árvores de decisão para prever
+ a quantidade ótima de itens em estoque, fundamentada em dados históricos
+ de vendas.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Inicialização e Divisão dos Dados
+\end_layout
+
+\begin_layout Standard
+A classe OtimizadorInventario é inicializada com um dataframe contendo informaçõ
+es relevantes.
+ O método dividir_treino_teste extrai as features e o target, separando
+ os dados em conjuntos de treino e teste, crucial para avaliar o desempenho
+ do modelo.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Treinamento do Modelo de Floresta Aleatória
+\end_layout
+
+\begin_layout Standard
+A implementação utiliza a classe RandomForestRegressor da biblioteca scikit-lear
+n.
+ O método treinar_random_forest instância e treina o modelo com os dados
+ de treino, permitindo ajustes como o número de árvores na floresta.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Avaliação do Modelo
+\end_layout
+
+\begin_layout Standard
+O método avaliar_modelo realiza previsões sobre os dados de teste e calcula
+ o desvio padrão e o erro estatístico (MSE).
+ Essas métricas são essenciais para compreender a precisão e a robustez
+ do modelo.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Visualização e Análise de Resultados
+\end_layout
+
+\begin_layout Standard
+O código fornece funções para visualização, incluindo um gráfico de dispersão
+ comparando valores reais e previstos e a tendência do MSE em relação ao
+ número de árvores na floresta.
+ Essas visualizações oferecem insights sobre a confiabilidade do modelo
+ em diferentes configurações.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Execução do Programa
+\end_layout
+
+\begin_layout Standard
+O bloco principal orquestra a execução do programa.
+ O arquivo CSV contendo os dados de inventário é carregado, e o modelo é
+ treinado e avaliado.
+ Os resultados são tabulados e visualizados, proporcionando uma análise
+ abrangente e detalhada do desempenho do modelo de Floresta Aleatória.
+\end_layout
+
+\end_body
+\end_document
